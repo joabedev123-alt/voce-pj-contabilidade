@@ -1,5 +1,5 @@
 import { motion, Variants } from "framer-motion";
-import { ArrowRight, CheckCircleFill as CheckCircle2, GraphUpArrow as TrendingUp, ShieldCheck as Shield, Phone as Smartphone, Clock, Award, People as Users, FileText, Briefcase, ChevronRight } from "react-bootstrap-icons";
+import { ArrowRight, CheckCircleFill as CheckCircle2, GraphUpArrow as TrendingUp, ShieldCheck as Shield, Phone as Smartphone, Clock, Award, People as Users, FileText, Briefcase } from "react-bootstrap-icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
