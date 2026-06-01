@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #F8F8F8;
+  --foreground: #3E2723;
+  
+  --primary: #3E2723;
+  --primary-foreground: #F5F5F5;
+  
+  --secondary: #C8A46B;
+  --secondary-foreground: #F5F5F5;
+  
+  --accent: #E8C998;
+  --accent-foreground: #3E2723;
+  
+  --card: #F5F5F5;
+  --card-foreground: #3E2723;
+  
+  --muted: #E2E8F0;
+  --muted-foreground: #64748B;
+  
+  --border: #E2E8F0;
+  
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #3E2723;
+  --foreground: #F8F8F8;
+  
+  --primary: #C8A46B;
+  --primary-foreground: #3E2723;
+  
+  --secondary: #4E342E;
+  --secondary-foreground: #F5F5F5;
+  
+  --accent: #E8C998;
+  --accent-foreground: #3E2723;
+  
+  --card: #4E342E;
+  --card-foreground: #F8F8F8;
+  
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  
+  --border: #1E293B;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-white: #F5F5F5;
+  
+  --font-sans: 'Poppins', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+  
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass {
+  background: rgba(62, 39, 35, 0.4);
+  border: 1px solid rgba(200, 164, 107, 0.2);
+}
+
+/* Scroll reveal utility */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
