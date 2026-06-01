@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { ArrowRight, CheckCircleFill as CheckCircle2, GraphUpArrow as TrendingUp, ShieldCheck as Shield, Phone as Smartphone, Clock, Award, People as Users, FileText, Briefcase, ChevronRight } from "react-bootstrap-icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
@@ -7,12 +7,12 @@ import "swiper/css/pagination";
 
 const WPP_LINK = "https://wa.me/5561985197551";
 
-const fadeInUp = {
+const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
