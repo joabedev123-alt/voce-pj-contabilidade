@@ -3,22 +3,22 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #F8F8F8;
-  --foreground: #3E2723;
+  --background: #F3F4F6;
+  --foreground: #000000;
   
-  --primary: #3E2723;
-  --primary-foreground: #F5F5F5;
+  --primary: #0A0A0A;
+  --primary-foreground: #FFFFFF;
   
-  --secondary: #C8A46B;
-  --secondary-foreground: #F5F5F5;
+  --secondary: #D4AF37;
+  --secondary-foreground: #FFFFFF;
   
   --accent: #E8C998;
-  --accent-foreground: #3E2723;
+  --accent-foreground: #0A0A0A;
   
-  --card: #F5F5F5;
-  --card-foreground: #3E2723;
+  --card: #FAFAFA;
+  --card-foreground: #0A0A0A;
   
-  --muted: #E2E8F0;
+  --muted: #F1F5F9;
   --muted-foreground: #64748B;
   
   --border: #E2E8F0;
@@ -27,25 +27,25 @@
 }
 
 .dark {
-  --background: #3E2723;
-  --foreground: #F8F8F8;
+  --background: #000000;
+  --foreground: #FFFFFF;
   
-  --primary: #C8A46B;
-  --primary-foreground: #3E2723;
+  --primary: #D4AF37;
+  --primary-foreground: #000000;
   
-  --secondary: #4E342E;
-  --secondary-foreground: #F5F5F5;
+  --secondary: #1A1A1A;
+  --secondary-foreground: #FFFFFF;
   
-  --accent: #E8C998;
-  --accent-foreground: #3E2723;
+  --accent: #D4AF37;
+  --accent-foreground: #000000;
   
-  --card: #4E342E;
-  --card-foreground: #F8F8F8;
+  --card: #111111;
+  --card-foreground: #FFFFFF;
   
   --muted: #1E293B;
   --muted-foreground: #94A3B8;
   
-  --border: #1E293B;
+  --border: #333333;
 }
 
 @theme inline {
@@ -62,7 +62,7 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
-  --color-white: #F5F5F5;
+  --color-white: #FFFFFF;
   
   --font-sans: 'Poppins', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
@@ -92,8 +92,8 @@ body {
 }
 
 .dark .glass {
-  background: rgba(62, 39, 35, 0.4);
-  border: 1px solid rgba(200, 164, 107, 0.2);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 /* Scroll reveal utility */
@@ -106,5 +106,29 @@ body {
 .reveal.active {
   opacity: 1;
   transform: translateY(0);
+}
+
+@keyframes cta-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(232, 201, 152, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(232, 201, 152, 0.8);
+  }
+}
+
+.animate-cta-pulse {
+  animation: cta-pulse 2s infinite ease-in-out;
+}
+
+@keyframes scale-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+
+.animate-scale-pulse {
+  animation: scale-pulse 2s infinite ease-in-out;
 }
 

@@ -1,4 +1,5 @@
-import { motion, Variants } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, Variants, useMotionValue, useSpring } from "framer-motion";
 import { ArrowRight, CheckCircleFill as CheckCircle2, GraphUpArrow as TrendingUp, ShieldCheck as Shield, Phone as Smartphone, Clock, Award, People as Users, FileText, Briefcase } from "react-bootstrap-icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
@@ -20,16 +21,70 @@ const staggerContainer: Variants = {
   },
 };
 
-export default function Home() {
+function CustomCursor() {
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
+
+  useEffect(() => {
+    const moveCursor = (e: MouseEvent) => {
+      cursorX.set(e.clientX - 16);
+      cursorY.set(e.clientY - 16);
+    };
+    window.addEventListener("mousemove", moveCursor);
+    return () => window.removeEventListener("mousemove", moveCursor);
+  }, [cursorX, cursorY]);
+
   return (
-    <main className="min-h-screen bg-background text-foreground overflow-hidden">
+    <>
+      <motion.div
+        className="fixed top-0 left-0 w-8 h-8 rounded-full border-2 border-accent pointer-events-none z-[9999] mix-blend-difference hidden md:block"
+        style={{ x: cursorXSpring, y: cursorYSpring }}
+      />
+      <motion.div
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-accent pointer-events-none z-[9999] mix-blend-difference hidden md:block"
+        style={{ x: cursorX, y: cursorY, translateX: 12, translateY: 12 }}
+      />
+    </>
+  );
+}
+
+export default function Home() {
+  const [formData, setFormData] = useState({
+    nome: "",
+    empresa: "",
+    telefone: "",
+    email: "",
+    servico: "Contabilidade Empresarial",
+  });
+
+  const handleWhatsAppSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { nome, empresa, telefone, email, servico } = formData;
+    
+    if (!nome || !empresa || !telefone || !email) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+
+    const text = `Olá, gostaria de solicitar uma proposta.\n\n*Nome:* ${nome}\n*Empresa:* ${empresa}\n*Telefone:* ${telefone}\n*E-mail:* ${email}\n*Serviço de Interesse:* ${servico}`;
+    
+    const url = `${WPP_LINK}?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
+
+  return (
+    <main className="min-h-screen bg-background text-foreground overflow-hidden cursor-default">
+      <CustomCursor />
       {/* HERO SECTION */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 pb-32 px-6 lg:px-20">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-primary/60 z-10 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/50 to-background z-20" />
+          <div className="absolute inset-0 bg-primary/40 z-10 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/50 via-primary/30 to-transparent z-20" />
           <img
-            src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80"
+            src="/images/hero_bg.png"
             alt="Escritório corporativo"
             className="w-full h-full object-cover"
           />
@@ -47,19 +102,19 @@ export default function Home() {
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white max-w-5xl leading-tight tracking-tight"
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2, type: "spring", stiffness: 100 }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-400 max-w-5xl leading-tight tracking-tight drop-shadow-2xl"
           >
-            Contabilidade inteligente para <br className="hidden sm:block" /><span className="text-accent">empresas que crescem</span>
+            Contabilidade inteligente para <br className="hidden sm:block" /><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-200">Empresas que crescem</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-base sm:text-lg md:text-xl text-slate-300 max-w-3xl"
+            className="text-base sm:text-lg md:text-xl text-white font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] max-w-3xl"
           >
             Atendimento especializado para empresas de Brasília e todo o Brasil com suporte completo nas áreas contábil, fiscal, tributária e departamento pessoal.
           </motion.p>
@@ -74,20 +129,15 @@ export default function Home() {
               href={WPP_LINK}
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-accent text-primary font-semibold rounded-lg hover:bg-white transition-all shadow-[0_0_20px_rgba(232,201,152,0.3)] hover:shadow-[0_0_30px_rgba(232,201,152,0.5)] transform hover:-translate-y-1 text-center"
+              className="relative overflow-hidden group w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-accent text-primary font-bold rounded-xl transition-all animate-cta-pulse text-center"
             >
-              👉 Falar com um Especialista
-            </a>
-            <a
-              href="#solucoes"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white/10 text-white font-semibold rounded-lg hover:bg-white/20 transition-all backdrop-blur-sm border border-white/20 text-center"
-            >
-              👉 Conhecer Soluções
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+              <span className="relative">👉 Falar com um Especialista</span>
             </a>
           </motion.div>
 
           {/* Floating Cards */}
-          <div className="absolute -bottom-14 w-full max-w-5xl hidden md:flex justify-between gap-4 px-6">
+          <div className="absolute -bottom-24 sm:-bottom-14 w-full max-w-5xl grid grid-cols-2 gap-2 sm:flex sm:justify-between sm:gap-4 px-4 sm:px-6">
             {[
               { icon: Users, text: "+500 Empresas Atendidas" },
               { icon: TrendingUp, text: "Atendimento Nacional" },
@@ -99,12 +149,12 @@ export default function Home() {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 + i * 0.1 }}
-                className="flex-1 bg-white dark:bg-card p-4 rounded-xl shadow-lg border border-border flex items-center gap-3 hover:-translate-y-1.5 transition-transform duration-300 group"
+                className="flex-1 bg-white dark:bg-card p-3 sm:p-4 rounded-xl shadow-lg border border-border flex flex-col sm:flex-row items-center text-center sm:text-left gap-2 sm:gap-3 hover:-translate-y-1.5 transition-transform duration-300 group"
               >
                 <div className="p-2 bg-primary/5 rounded-lg group-hover:bg-accent/20 transition-colors">
-                  <item.icon className="w-6 h-6 text-primary dark:text-accent" />
+                  <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary dark:text-accent" />
                 </div>
-                <p className="font-semibold text-sm text-foreground leading-snug">{item.text}</p>
+                <p className="font-semibold text-xs sm:text-sm text-foreground leading-snug">{item.text}</p>
               </motion.div>
             ))}
           </div>
@@ -112,7 +162,7 @@ export default function Home() {
       </section>
 
       {/* SERVIÇOS SECTION */}
-      <section id="solucoes" className="py-20 px-6 lg:px-20 bg-background relative">
+      <section id="solucoes" className="py-20 px-6 lg:px-20 bg-muted/50 relative">
         <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-accent/5 blur-[120px] rounded-full" />
         
         <div className="max-w-7xl mx-auto md:mt-16">
@@ -145,27 +195,35 @@ export default function Home() {
               { title: "Consultoria Fiscal", icon: FileText },
               { title: "Gestão Contábil Completa", icon: Briefcase },
             ].map((srv, i) => (
-              <motion.div
+              <motion.a
+                href={`${WPP_LINK}?text=${encodeURIComponent(`Olá, gostaria de saber mais sobre o serviço de ${srv.title}.`)}`}
+                target="_blank"
+                rel="noreferrer"
                 key={i}
                 variants={fadeInUp}
-                className="group p-5 rounded-xl bg-white dark:bg-card border border-border hover:border-accent/50 shadow-sm hover:shadow-[0_10px_40px_rgba(200,164,107,0.15)] transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
+                whileHover={{ scale: 1.05, rotateY: 5, rotateX: -5, zIndex: 10 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                className="group p-6 rounded-2xl bg-white dark:bg-card border border-border/50 hover:border-accent/80 shadow-md hover:shadow-[0_20px_50px_rgba(200,164,107,0.25)] transition-colors duration-300 relative overflow-hidden flex flex-col justify-between cursor-pointer block text-left"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-accent/5 rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-500" />
-                <srv.icon className="w-8 h-8 text-secondary mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h4 className="text-lg font-bold text-foreground mb-2 leading-tight">{srv.title}</h4>
-                <p className="text-muted-foreground text-sm leading-relaxed">Estratégias personalizadas para maximizar seus resultados e garantir conformidade.</p>
-                <div className="mt-4 flex items-center text-secondary text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                  Saiba mais <ArrowRight className="w-4 h-4 ml-2" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-accent/20 to-transparent rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-700 ease-out" />
+                <srv.icon className="w-10 h-10 text-secondary mb-5 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300" />
+                <h4 className="text-xl font-bold text-foreground mb-3 leading-tight group-hover:text-primary dark:group-hover:text-accent transition-colors">{srv.title}</h4>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">Estratégias personalizadas para maximizar seus resultados e garantir conformidade.</p>
+                <div className="mt-auto flex items-center text-secondary text-sm font-semibold opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                  Saiba mais 
+                  <span className="ml-2 group-hover:translate-x-1 transition-transform flex items-center justify-center">
+                    <ArrowRight className="w-4 h-4 animate-scale-pulse" />
+                  </span>
                 </div>
-              </motion.div>
+              </motion.a>
             ))}
           </motion.div>
         </div>
       </section>
 
       {/* DIFERENCIAIS SECTION */}
-      <section className="py-24 px-6 lg:px-20 bg-muted/30">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+      <section className="py-16 md:py-24 px-6 lg:px-20 bg-muted/30">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 md:gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -175,7 +233,7 @@ export default function Home() {
           >
             <div className="absolute -inset-4 bg-accent/20 rounded-[2rem] transform rotate-3 blur-sm" />
             <img
-              src="https://images.unsplash.com/photo-1556761175-5973dc0f32d7?auto=format&fit=crop&q=80"
+              src="/images/consultancy.png"
               alt="Reunião de consultoria"
               className="relative rounded-[2rem] shadow-2xl object-cover h-[600px] w-full"
             />
@@ -215,7 +273,7 @@ export default function Home() {
 
       {/* NÚMEROS SECTION */}
       <section className="py-24 px-6 lg:px-20 bg-primary relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80')] opacity-5 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-[url('/images/numbers_bg.png')] bg-cover bg-center opacity-5 mix-blend-overlay" />
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial="hidden"
@@ -329,11 +387,11 @@ export default function Home() {
       </section>
 
       {/* FORMULARIO & CTA SECTION */}
-      <section className="py-24 px-6 lg:px-20 bg-background">
+      <section className="py-16 md:py-24 px-6 lg:px-20 bg-background">
         <div className="max-w-6xl mx-auto bg-primary rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row relative">
-          <div className="absolute top-0 right-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80')] opacity-10 mix-blend-overlay" />
+          <div className="absolute top-0 right-0 w-full h-full bg-[url('/images/form_bg.png')] bg-cover bg-center opacity-10 mix-blend-overlay" />
           
-          <div className="lg:w-1/2 p-12 lg:p-20 relative z-10 text-white flex flex-col justify-center">
+          <div className="lg:w-1/2 p-8 lg:p-20 relative z-10 text-white flex flex-col justify-center">
             <h3 className="text-4xl font-bold mb-6 text-accent">Sua contabilidade pode ser mais simples</h3>
             <p className="text-lg text-white/80 mb-10">
               Fale agora com nossa equipe e descubra como podemos ajudar sua empresa a crescer pagando menos impostos e mantendo tudo em conformidade.
@@ -342,36 +400,36 @@ export default function Home() {
               href={WPP_LINK}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center px-8 py-4 bg-accent text-primary font-bold rounded-xl hover:bg-white transition-all shadow-lg w-max"
+              className="inline-flex items-center justify-center px-8 py-4 bg-accent text-primary font-bold rounded-xl hover:bg-white transition-all animate-cta-pulse w-max"
             >
               👉 Chamar no WhatsApp
             </a>
           </div>
 
-          <div className="lg:w-1/2 bg-white dark:bg-card p-12 lg:p-20 relative z-10">
+          <div className="lg:w-1/2 bg-white dark:bg-card p-8 lg:p-20 relative z-10">
             <h4 className="text-2xl font-bold text-foreground mb-8">Solicite uma proposta</h4>
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleWhatsAppSubmit}>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">Nome Completo</label>
-                <input type="text" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="Seu nome" />
+                <input type="text" value={formData.nome} onChange={(e) => setFormData({...formData, nome: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="Seu nome" />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">Empresa</label>
-                <input type="text" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="Nome da sua empresa" />
+                <input type="text" value={formData.empresa} onChange={(e) => setFormData({...formData, empresa: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="Nome da sua empresa" />
               </div>
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Telefone/WhatsApp</label>
-                  <input type="tel" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="(00) 00000-0000" />
+                  <input type="tel" value={formData.telefone} onChange={(e) => setFormData({...formData, telefone: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="(00) 00000-0000" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">E-mail</label>
-                  <input type="email" className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="seu@email.com" />
+                  <input type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="seu@email.com" />
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">Serviço de Interesse</label>
-                <select className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors">
+                <select value={formData.servico} onChange={(e) => setFormData({...formData, servico: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors">
                   <option>Contabilidade Empresarial</option>
                   <option>Abertura de Empresa</option>
                   <option>BPO Financeiro</option>
@@ -379,7 +437,7 @@ export default function Home() {
                   <option>Outros</option>
                 </select>
               </div>
-              <button type="button" className="w-full py-4 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-lg">
+              <button type="submit" className="w-full py-4 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-lg">
                 Enviar Solicitação
               </button>
             </form>
