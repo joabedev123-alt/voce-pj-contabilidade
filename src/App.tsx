@@ -83,14 +83,14 @@ export default function Home() {
       {/* NAVBAR */}
       <header className="absolute top-0 w-full z-[100] bg-background/80 backdrop-blur-lg border-b border-border transition-all">
         <div className="max-w-7xl mx-auto px-6 lg:px-20">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <div className="flex-shrink-0">
+          <div className="flex items-center justify-between h-20 relative">
+            {/* Logo - centralizada no mobile, esquerda no desktop */}
+            <div className="absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0 flex-shrink-0">
               <a href="#" className="flex items-center">
                 <img
                   src="/logo-sem-fundo.png"
                   alt="VOCÊ PJ Contabilidade"
-                  className="h-12 md:h-40 w-auto object-contain"
+                  className="h-24 md:h-40 w-auto object-contain"
                 />
               </a>
             </div>
