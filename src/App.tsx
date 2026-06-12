@@ -163,15 +163,7 @@ export default function Home() {
         </div>
 
         <div className="relative z-30 max-w-7xl mx-auto flex flex-col items-center text-center space-y-6 mt-0 md:-mt-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-secondary/50 text-secondary-foreground text-sm font-medium"
-          >
-            <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-            VOCÊ PJ CONTABILIDADE
-          </motion.div>
+
 
           <motion.h1
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
