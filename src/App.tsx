@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, Variants, useMotionValue, useSpring } from "framer-motion";
-import { ArrowRight, CheckCircleFill as CheckCircle2, GraphUpArrow as TrendingUp, ShieldCheck as Shield, Phone as Smartphone, Clock, Award, People as Users, FileText, Briefcase } from "react-bootstrap-icons";
+import { ArrowRight, CheckCircleFill as CheckCircle2, GraphUpArrow as TrendingUp, ShieldCheck as Shield, Phone as Smartphone, Clock, Award, People as Users, FileText, Briefcase, List as MenuIcon, X as XIcon, Person as UserIcon } from "react-bootstrap-icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -59,6 +59,7 @@ export default function Home() {
     email: "",
     servico: "Contabilidade Empresarial",
   });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleWhatsAppSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,8 +79,79 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground overflow-hidden cursor-default">
       <CustomCursor />
+      
+      {/* NAVBAR */}
+      <header className="absolute top-0 w-full z-[100] bg-background/80 backdrop-blur-lg border-b border-border transition-all">
+        <div className="max-w-7xl mx-auto px-6 lg:px-20">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <a href="#" className="flex items-center">
+                <img
+                  src="/logo-sem-fundo.png"
+                  alt="VOCÊ PJ Contabilidade"
+                  className="h-12 md:h-40 w-auto object-contain"
+                />
+              </a>
+            </div>
+            
+            {/* Desktop Menu */}
+            <nav className="hidden md:flex items-center gap-8">
+              <a href="#solucoes" className="text-sm font-medium text-foreground/80 hover:text-accent transition-colors">Serviços</a>
+              <a href="#diferenciais" className="text-sm font-medium text-foreground/80 hover:text-accent transition-colors">Diferenciais</a>
+              <a href="#passo-a-passo" className="text-sm font-medium text-foreground/80 hover:text-accent transition-colors">Como Funciona</a>
+              <a href="#contato" className="text-sm font-medium text-foreground/80 hover:text-accent transition-colors">Contato</a>
+            </nav>
+
+            {/* Desktop CTA & Mobile Toggle */}
+            <div className="flex items-center gap-4">
+              <a
+                href="https://onvio.com.br/clientcenter/pt/auth?r=%2Fhome"
+                target="_blank"
+                rel="noreferrer"
+                className="hidden md:inline-flex items-center justify-center px-6 py-2.5 bg-primary text-white font-medium text-sm rounded-lg hover:bg-primary/90 transition-all shadow-md group"
+              >
+                <UserIcon className="w-4 h-4 mr-2 group-hover:text-accent transition-colors" />
+                Área do Cliente
+              </a>
+              
+              <button
+                className="md:hidden p-2 text-foreground"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <XIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="md:hidden absolute top-20 left-0 w-full bg-background border-b border-border shadow-xl py-4 px-6 flex flex-col gap-4"
+          >
+            <a href="#solucoes" onClick={() => setIsMenuOpen(false)} className="text-base font-medium text-foreground py-2 border-b border-border/50">Serviços</a>
+            <a href="#diferenciais" onClick={() => setIsMenuOpen(false)} className="text-base font-medium text-foreground py-2 border-b border-border/50">Diferenciais</a>
+            <a href="#passo-a-passo" onClick={() => setIsMenuOpen(false)} className="text-base font-medium text-foreground py-2 border-b border-border/50">Como Funciona</a>
+            <a href="#contato" onClick={() => setIsMenuOpen(false)} className="text-base font-medium text-foreground py-2 border-b border-border/50">Contato</a>
+            <a
+              href="https://onvio.com.br/clientcenter/pt/auth?r=%2Fhome"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setIsMenuOpen(false)}
+              className="mt-2 inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-medium rounded-lg shadow-md"
+            >
+              <UserIcon className="w-5 h-5 mr-2 text-accent" />
+              Área do Cliente
+            </a>
+          </motion.div>
+        )}
+      </header>
+
       {/* HERO SECTION */}
-      <section className="relative min-h-screen flex items-center justify-center pt-20 pb-32 px-6 lg:px-20">
+      <section className="relative min-h-screen flex items-center justify-center pt-20 pb-20 px-6 lg:px-20">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-primary/40 z-10 mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/50 via-primary/30 to-transparent z-20" />
@@ -90,7 +162,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="relative z-30 max-w-7xl mx-auto flex flex-col items-center text-center space-y-8 -mt-16">
+        <div className="relative z-30 max-w-7xl mx-auto flex flex-col items-center text-center space-y-6 mt-0 md:-mt-16">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -135,29 +207,6 @@ export default function Home() {
               <span className="relative">👉 Falar com um Especialista</span>
             </a>
           </motion.div>
-
-          {/* Floating Cards */}
-          <div className="absolute -bottom-24 sm:-bottom-14 w-full max-w-5xl grid grid-cols-2 gap-2 sm:flex sm:justify-between sm:gap-4 px-4 sm:px-6">
-            {[
-              { icon: Users, text: "+500 Empresas Atendidas" },
-              { icon: TrendingUp, text: "Atendimento Nacional" },
-              { icon: Award, text: "Suporte Especializado" },
-              { icon: Smartphone, text: "Contabilidade Digital" }
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 + i * 0.1 }}
-                className="flex-1 bg-white dark:bg-card p-3 sm:p-4 rounded-xl shadow-lg border border-border flex flex-col sm:flex-row items-center text-center sm:text-left gap-2 sm:gap-3 hover:-translate-y-1.5 transition-transform duration-300 group"
-              >
-                <div className="p-2 bg-primary/5 rounded-lg group-hover:bg-accent/20 transition-colors">
-                  <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary dark:text-accent" />
-                </div>
-                <p className="font-semibold text-xs sm:text-sm text-foreground leading-snug">{item.text}</p>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -222,7 +271,7 @@ export default function Home() {
       </section>
 
       {/* DIFERENCIAIS SECTION */}
-      <section className="py-16 md:py-24 px-6 lg:px-20 bg-muted/30">
+      <section id="diferenciais" className="py-12 md:py-24 px-6 lg:px-20 bg-muted/30">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 md:gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -235,11 +284,11 @@ export default function Home() {
             <img
               src="/images/consultancy.png"
               alt="Reunião de consultoria"
-              className="relative rounded-[2rem] shadow-2xl object-cover h-[600px] w-full"
+              className="relative rounded-[2rem] shadow-2xl object-cover h-[300px] sm:h-[400px] md:h-[600px] w-full"
             />
-            <div className="absolute -bottom-8 -right-8 bg-primary text-white p-8 rounded-2xl shadow-xl max-w-xs">
-              <p className="text-4xl font-bold text-accent mb-2">100%</p>
-              <p className="font-medium">Foco no crescimento do seu negócio</p>
+            <div className="absolute -bottom-6 -right-4 md:-bottom-8 md:-right-8 bg-primary text-white p-5 md:p-8 rounded-2xl shadow-xl max-w-[180px] md:max-w-xs">
+              <p className="text-3xl md:text-4xl font-bold text-accent mb-1 md:mb-2">100%</p>
+              <p className="font-medium text-sm md:text-base">Foco no crescimento do seu negócio</p>
             </div>
           </motion.div>
 
@@ -250,7 +299,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-sm font-bold text-secondary uppercase tracking-wider mb-3">Nossos Diferenciais</h2>
-            <h3 className="text-4xl md:text-5xl font-bold text-primary dark:text-white mb-8">Por que escolher a VOCÊ PJ?</h3>
+            <h3 className="text-3xl md:text-5xl font-bold text-primary dark:text-white mb-6 md:mb-8">Por que escolher a VOCÊ PJ?</h3>
             
             <div className="space-y-6">
               {[
@@ -272,9 +321,41 @@ export default function Home() {
       </section>
 
       {/* NÚMEROS SECTION */}
-      <section className="py-24 px-6 lg:px-20 bg-primary relative overflow-hidden">
+      <section className="py-14 md:py-24 px-6 lg:px-20 bg-primary relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/numbers_bg.png')] bg-cover bg-center opacity-5 mix-blend-overlay" />
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10 space-y-16">
+
+          {/* Cards com ícones */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4"
+          >
+            {[
+              { icon: Users, text: "+500 Empresas Atendidas" },
+              { icon: TrendingUp, text: "Atendimento Nacional" },
+              { icon: Award, text: "Suporte Especializado" },
+              { icon: Smartphone, text: "Contabilidade Digital" }
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                variants={fadeInUp}
+                className="bg-white/10 border border-white/20 rounded-xl p-4 flex flex-col sm:flex-row items-center text-center sm:text-left gap-3 hover:bg-white/20 transition-colors duration-300 group"
+              >
+                <div className="p-2 bg-accent/20 rounded-lg group-hover:bg-accent/40 transition-colors">
+                  <item.icon className="w-6 h-6 text-accent" />
+                </div>
+                <p className="font-semibold text-sm text-white leading-snug">{item.text}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Divisor */}
+          <div className="w-full h-px bg-white/10" />
+
+          {/* Números */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -288,19 +369,20 @@ export default function Home() {
               { number: "+1000", label: "Declarações Entregues" },
               { number: "98%", label: "Clientes Satisfeitos" },
             ].map((stat, i) => (
-              <motion.div key={i} variants={fadeInUp} className="space-y-4">
-                <h4 className="text-5xl md:text-6xl font-bold text-accent">{stat.number}</h4>
-                <p className="text-lg text-white/80 font-medium">{stat.label}</p>
+              <motion.div key={i} variants={fadeInUp} className="space-y-2 md:space-y-4">
+                <h4 className="text-4xl md:text-6xl font-bold text-accent">{stat.number}</h4>
+                <p className="text-sm md:text-lg text-white/80 font-medium">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
+
         </div>
       </section>
 
       {/* DEPOIMENTOS SECTION */}
-      <section className="py-32 px-6 lg:px-20 bg-background">
+      <section className="py-16 md:py-32 px-6 lg:px-20 bg-background">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
+          <div className="text-center mb-10 md:mb-20">
             <h2 className="text-sm font-bold text-secondary uppercase tracking-wider mb-3">Depoimentos</h2>
             <h3 className="text-4xl md:text-5xl font-bold text-primary dark:text-white">O que dizem nossos clientes</h3>
             <div className="w-24 h-1 bg-accent mx-auto mt-6 rounded-full" />
@@ -351,15 +433,15 @@ export default function Home() {
       </section>
 
       {/* PROCESSO SECTION */}
-      <section className="py-24 px-6 lg:px-20 bg-muted/30">
+      <section id="passo-a-passo" className="py-14 md:py-24 px-6 lg:px-20 bg-muted/30">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
+          <div className="text-center mb-10 md:mb-20">
             <h2 className="text-sm font-bold text-secondary uppercase tracking-wider mb-3">Passo a Passo</h2>
             <h3 className="text-4xl md:text-5xl font-bold text-primary dark:text-white">Como funciona</h3>
             <div className="w-24 h-1 bg-accent mx-auto mt-6 rounded-full" />
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8 relative">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 relative">
             <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-border -translate-y-1/2 z-0" />
             {[
               { title: "Entre em contato", desc: "Fale conosco via WhatsApp ou formulário." },
@@ -387,7 +469,7 @@ export default function Home() {
       </section>
 
       {/* FORMULARIO & CTA SECTION */}
-      <section className="py-16 md:py-24 px-6 lg:px-20 bg-background">
+      <section id="contato" className="py-16 md:py-24 px-6 lg:px-20 bg-background">
         <div className="max-w-6xl mx-auto bg-primary rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row relative">
           <div className="absolute top-0 right-0 w-full h-full bg-[url('/images/form_bg.png')] bg-cover bg-center opacity-10 mix-blend-overlay" />
           
@@ -417,7 +499,7 @@ export default function Home() {
                 <label className="text-sm font-medium text-foreground">Empresa</label>
                 <input type="text" value={formData.empresa} onChange={(e) => setFormData({...formData, empresa: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="Nome da sua empresa" />
               </div>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Telefone/WhatsApp</label>
                   <input type="tel" value={formData.telefone} onChange={(e) => setFormData({...formData, telefone: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="(00) 00000-0000" />
@@ -446,10 +528,14 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-primary pt-20 pb-10 px-6 lg:px-20 text-white relative">
+      <footer className="bg-primary pt-12 md:pt-20 pb-10 px-6 lg:px-20 text-white relative">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-2">
-            <h5 className="text-2xl font-bold text-accent mb-6">VOCÊ PJ CONTABILIDADE</h5>
+            <img
+              src="/logo-sem-fundo.png"
+              alt="VOCÊ PJ Contabilidade"
+              className="h-24 md:h-44 w-auto object-contain mb-6 brightness-0 invert"
+            />
             <p className="text-white/70 max-w-sm mb-8">
               Soluções contábeis modernas e eficientes para empresas que buscam crescimento com segurança e economia.
             </p>
