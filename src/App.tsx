@@ -83,14 +83,14 @@ export default function Home() {
       {/* NAVBAR */}
       <header className="absolute top-0 w-full z-[100] bg-background/80 backdrop-blur-lg border-b border-border transition-all">
         <div className="max-w-7xl mx-auto px-6 lg:px-20">
-          <div className="flex items-center justify-between h-20 relative">
+          <div className="flex items-center justify-between h-24 relative">
             {/* Logo - centralizada no mobile, esquerda no desktop */}
             <div className="absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0 flex-shrink-0">
               <a href="#" className="flex items-center">
                 <img
-                  src="/logo-sem-fundo.png"
+                  src="/logo original.png"
                   alt="VOCÊ PJ Contabilidade"
-                  className="h-24 md:h-40 w-auto object-contain"
+                  className="h-24 md:h-28 w-auto object-contain"
                 />
               </a>
             </div>
@@ -130,7 +130,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="md:hidden absolute top-20 left-0 w-full bg-background border-b border-border shadow-xl py-4 px-6 flex flex-col gap-4"
+            className="md:hidden absolute top-24 left-0 w-full bg-background border-b border-border shadow-xl py-4 px-6 flex flex-col gap-4"
           >
             <a href="#solucoes" onClick={() => setIsMenuOpen(false)} className="text-base font-medium text-foreground py-2 border-b border-border/50">Serviços</a>
             <a href="#diferenciais" onClick={() => setIsMenuOpen(false)} className="text-base font-medium text-foreground py-2 border-b border-border/50">Diferenciais</a>
@@ -151,7 +151,7 @@ export default function Home() {
       </header>
 
       {/* HERO SECTION */}
-      <section className="relative min-h-screen flex items-center justify-center pt-20 pb-20 px-6 lg:px-20">
+      <section className="relative min-h-screen flex items-center justify-center pt-28 pb-16 px-6 lg:px-20">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-primary/40 z-10 mix-blend-multiply" />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/50 via-primary/30 to-transparent z-20" />
@@ -169,7 +169,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2, type: "spring", stiffness: 100 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-400 max-w-5xl leading-tight tracking-tight drop-shadow-2xl"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-400 max-w-5xl leading-tight tracking-tight drop-shadow-2xl"
           >
             Contabilidade inteligente para <br className="hidden sm:block" /><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-yellow-200">Empresas que crescem</span>
           </motion.h1>
@@ -215,7 +215,7 @@ export default function Home() {
             className="text-center mb-12"
           >
             <h2 className="text-sm font-bold text-secondary uppercase tracking-wider mb-3">Nossos Serviços</h2>
-            <h3 className="text-4xl md:text-5xl font-bold text-primary dark:text-white">Soluções para sua empresa</h3>
+            <h3 className="text-3xl md:text-5xl font-bold text-primary dark:text-white">Soluções para sua empresa</h3>
             <div className="w-24 h-1 bg-accent mx-auto mt-6 rounded-full" />
           </motion.div>
 
@@ -224,7 +224,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerContainer}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {[
               { title: "Contabilidade Empresarial", icon: Briefcase },
@@ -376,7 +376,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 md:mb-20">
             <h2 className="text-sm font-bold text-secondary uppercase tracking-wider mb-3">Depoimentos</h2>
-            <h3 className="text-4xl md:text-5xl font-bold text-primary dark:text-white">O que dizem nossos clientes</h3>
+            <h3 className="text-3xl md:text-5xl font-bold text-primary dark:text-white">O que dizem nossos clientes</h3>
             <div className="w-24 h-1 bg-accent mx-auto mt-6 rounded-full" />
           </div>
 
@@ -429,11 +429,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 md:mb-20">
             <h2 className="text-sm font-bold text-secondary uppercase tracking-wider mb-3">Passo a Passo</h2>
-            <h3 className="text-4xl md:text-5xl font-bold text-primary dark:text-white">Como funciona</h3>
+            <h3 className="text-3xl md:text-5xl font-bold text-primary dark:text-white">Como funciona</h3>
             <div className="w-24 h-1 bg-accent mx-auto mt-6 rounded-full" />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 relative">
             <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-border -translate-y-1/2 z-0" />
             {[
               { title: "Entre em contato", desc: "Fale conosco via WhatsApp ou formulário." },
@@ -465,9 +465,9 @@ export default function Home() {
         <div className="max-w-6xl mx-auto bg-primary rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row relative">
           <div className="absolute top-0 right-0 w-full h-full bg-[url('/images/form_bg.png')] bg-cover bg-center opacity-10 mix-blend-overlay" />
           
-          <div className="lg:w-1/2 p-8 lg:p-20 relative z-10 text-white flex flex-col justify-center">
-            <h3 className="text-4xl font-bold mb-6 text-accent">Sua contabilidade pode ser mais simples</h3>
-            <p className="text-lg text-white/80 mb-10">
+          <div className="lg:w-1/2 p-6 sm:p-8 lg:p-20 relative z-10 text-white flex flex-col justify-center">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-accent">Sua contabilidade pode ser mais simples</h3>
+            <p className="text-base md:text-lg text-white/80 mb-6 md:mb-10">
               Fale agora com nossa equipe e descubra como podemos ajudar sua empresa a crescer pagando menos impostos e mantendo tudo em conformidade.
             </p>
             <a
@@ -480,8 +480,8 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="lg:w-1/2 bg-white dark:bg-card p-8 lg:p-20 relative z-10">
-            <h4 className="text-2xl font-bold text-foreground mb-8">Solicite uma proposta</h4>
+          <div className="lg:w-1/2 bg-white dark:bg-card p-6 sm:p-8 lg:p-20 relative z-10">
+            <h4 className="text-xl sm:text-2xl font-bold text-foreground mb-6 md:mb-8">Solicite uma proposta</h4>
             <form className="space-y-6" onSubmit={handleWhatsAppSubmit}>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">Nome Completo</label>
@@ -521,12 +521,12 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="bg-primary pt-12 md:pt-20 pb-10 px-6 lg:px-20 text-white relative">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-16">
           <div className="md:col-span-2">
             <img
-              src="/logo-sem-fundo.png"
+              src="/logo original.png"
               alt="VOCÊ PJ Contabilidade"
-              className="h-24 md:h-44 w-auto object-contain mb-6 brightness-0 invert"
+              className="h-20 md:h-36 w-auto object-contain mb-4 md:mb-6"
             />
             <p className="text-white/70 max-w-sm mb-8">
               Soluções contábeis modernas e eficientes para empresas que buscam crescimento com segurança e economia.
